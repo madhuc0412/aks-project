@@ -1,0 +1,38 @@
+#create separate namespace for prometheus 
+kubectl create namespace monitoring
+
+# adding prometheus-community repo to our system
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+# Find the created repo
+helm search repo prometheus-community
+
+# adding grafana repo to our system
+helm repo add grafana https://grafana.github.io/helm-charts
+
+# update helm repos
+helm repo update
+
+##prepare the prometheus_values and alertmanager_values config files.
+## do serach in web
+
+#Install prometheus
+helm install prometheus prometheus-community/prometheus-operator
+
+#install eporter, in my case it is mysql exporter
+helm install --name [RELEASE_NAME] prometheus-community/prometheus-mysql-exporter
+
+#view the values config
+helm show values prometheus-community/prometheus-mysql-exporter
+
+
+#upgrade prometheus to resolve config errors(https, proxy etc) and setting alertmanager to configure the Alerts and Receivers for Alertmanager
+ helm upgrade --install prometheus --namespace monitoring prometheus-community/prometheus-operator --values prometheus_values.yaml --values alertmanager_values.yaml 
+
+
+ #Port forward
+ kubectl -n monitoring port-forward prometheus-prometheus-prometheus-oper-prometheus-0 9090
+
+# To access the prometheus outside, we need to update the service file i.e type is loadbalancer
+kubectl edit svc <prometheusservice> -n monitoring
+kubectl edit svc <grafanaservice> -n monitoring

@@ -1,0 +1,37 @@
+
+
+# Get credentials for the cluster
+az aks get-credentials --resource-group AKS-RG --name NodeApp-Cluster
+ 
+# List nodes
+kubectl get nodes
+
+# Create ConfigMap for environment variables  
+kubectl apply -f angularui-configMap.yaml
+
+# Create the deployment /SQL Server 2019 container
+kubectl apply -f angularui-deployment.yaml
+
+ # Create the load balancing service
+kubectl apply -f angularui-service.yaml
+
+
+
+ 
+# List the running pods and services
+kubectl get pods
+kubectl get services
+
+
+ 
+# Connect to Node api
+# Retrieve external IP address from service then note down and use the url 
+kubectl get services
+
+
+# for Troubelshooting purpose you can use this command to view the events  
+ 
+kubectl describe pod -l app=angularui
+ 
+ # Display the container logs
+kubectl logs -l app=angularui

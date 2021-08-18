@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapi
+  labels:
+    app: nodeapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodeapi
+  template:
+    metadata:
+      labels:
+        app: nodeapi
+    spec:
+      containers:
+        - name: nodeapi
+          image: dockerh1234/node-api:latest
+          env:
+            - name: AppPortNo
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: AppPortNo
+            - name: AppHostURL
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: AppHostURL
+            - name: DBServer
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: DBServer
+            - name: DBName
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: DBName
+            - name: DBUserName
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: DBUserName
+            - name: DBPassword
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: DBPassword
+            - name: JWTSecretKey
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: JWTSecretKey
+            - name: JWTExpirySeconds
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapi-config
+                  key: JWTExpirySeconds

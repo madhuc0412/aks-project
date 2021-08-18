@@ -1,0 +1,40 @@
+
+
+# Get credentials for the cluster
+az aks get-credentials --resource-group AKS-RG --name NodeApp-Cluster
+ 
+# List nodes
+kubectl get nodes
+
+# Create ConfigMap for environment variables  
+kubectl apply -f nodeapi-configMap.yaml
+
+# Create the deployment /SQL Server 2019 container
+kubectl apply -f nodeapi-deployment.yaml
+
+ # Create the load balancing service
+kubectl apply -f nodeapi-service.yaml
+
+
+
+ 
+# List the running pods and services
+kubectl get pods
+kubectl get services
+
+
+# if the image is from AKS then need to give the ACR permissions to the AKS cluster
+#check and update the AKS, such away that our image ACR should be attached to aks
+az aks update -n NodeApp-Cluster -g AKS-RG --attach-acr acrrepo100
+ 
+# Connect to Node api
+# Retrieve external IP address from service then note down and use the url 
+kubectl get services
+
+
+# for Troubelshooting purpose you can use this command to view the events  
+ 
+kubectl describe pod -l app=nodeapi
+ 
+ # Display the container logs
+kubectl logs -l app=nodeapi

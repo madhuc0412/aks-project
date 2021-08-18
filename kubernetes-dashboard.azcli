@@ -1,0 +1,17 @@
+
+#Deploy the Dashboard by running the following command
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+
+# You will get kube-dashboard namespace and its svc
+# Edit the svc and set it type as load balancer .you can now browse the ui with external ip
+kubectl -n kubernetes-dashboard edit svc kubernetes-dashboard
+
+
+#Create a service account to access the Dashboard UI
+kubectl create serviceaccount dashboard -n default
+
+#Assigning role to the service acount, here we have given cluster-admin role.
+kubectl create clusterrolebinding dashboard-admin -n default  --clusterrole=cluster-admin  --serviceaccount=default:dashboard
+
+#To generate the token
+kubectl get secret $(kubectl get serviceaccount dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode

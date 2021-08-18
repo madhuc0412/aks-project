@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nodeapi-config
+data:
+  AppPortNo: "8080"
+  AppHostURL: "0.0.0.0"
+  DBServer: "104.42.51.223"
+  DBName: AdventureWorks2014
+  DBUserName: sa
+  DBPassword: Azureadmin@123
+  JWTSecretKey: KAHSecret
+  JWTExpirySeconds: "86400"

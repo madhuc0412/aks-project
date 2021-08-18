@@ -1,0 +1,20 @@
+#Create seperate namespace for Kasten
+kubectl create namespace kasten-io
+
+#Create a Kasten repo
+helm repo add kasten https://charts.kasten.io
+
+#Create servicePrincipal in Azure
+az ad sp create-for-rbac -n "myAKSclusterserviceprincipal"
+
+#Install kasten
+helm install k10 kasten/k10 --namespace=kasten-io \
+    --set secrets.azureTenantId=<tenantID> \
+    --set secrets.azureClientId=<azureclient_id> \
+    --set secrets.azureClientSecret=<azureclientsecret>
+
+#Port forwarding
+kubectl --namespace kasten-io port-forward service/gateway 8080:8000
+
+#If we want to expose the Kasten outside we need to updaet the service file as type as a loadbalancer
+kubectl edit svc <kastenservice> -n kasten-io

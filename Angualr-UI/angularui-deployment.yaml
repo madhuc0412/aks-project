@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angularui
+  labels:
+    app: angularui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: angularui
+  template:
+    metadata:
+      labels:
+        app: angularui
+    spec:
+      containers:
+        - name: angularui
+          image: dockerh1234/angularui:latest
+          env:
+            - name: NodeAPIURL
+              valueFrom:
+                configMapKeyRef:
+                  name: angularui-config
+                  key: NodeAPIURL
