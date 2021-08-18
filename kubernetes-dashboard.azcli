@@ -7,7 +7,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/a
 kubectl -n kubernetes-dashboard edit svc kubernetes-dashboard
 
 
-#Create a service account to access the Dashboard UI
+#Create a service account to access the Dashboard ui
 kubectl create serviceaccount dashboard -n default
 
 #Assigning role to the service acount, here we have given cluster-admin role.
