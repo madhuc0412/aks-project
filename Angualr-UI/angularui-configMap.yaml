@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: angularui-config
 data:
-  NodeAPIURL: "http://104.42.50.103:8080"
+  NodeAPIURL: "http://nodeapi.modem.ga:8080"
