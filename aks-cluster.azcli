@@ -172,7 +172,32 @@ kubectl taint nodes foo dedicated=special-user:NoSchedule
 
 #---------------------------------------------------------------------------
 
+errors that we get at the time of pod creation
+------------------------------------------------------
 
+imagepullbackoff-->if you dont find that specific image in the registry
+
+resolution
+-----------------
+1.check the name of the image in deployment file
+2.check the permissions or else use aks update cmd to attach acr
+3.check whether the image is present in registry or not
+
+
+
+crashloopbackoff-->when the application inside container crashes you will get this error at this time pod will be restarting continuously
+
+resolution
+--------------
+redeploy all the files
+
+
+liveliness and readiness probe(basically these probes are used for checking the health of the container)
+-----------------------------------
+
+liveliness probe:login inside the container and excutes cmd ( conditions written in the spec file ) it should return success ortherwise it will kill the container and restarts it.
+
+readiness probe: it will check wheather the application inside the container is ready to accept requests or not.if it fails then no traffic is forwarded to application .
 
 
 
